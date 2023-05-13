@@ -9,7 +9,7 @@ class Solution {
                     answer = 0;
                 }
             } else {
-                if (n<=m) {
+                if (n<m) {
                     answer = 1;
                 } else {
                     answer = 0;
@@ -23,7 +23,7 @@ class Solution {
                     answer = 0;
                 }
             } else {
-                if (n>=m) {
+                if (n>m) {
                     answer = 1;
                 } else {
                     answer = 0;
