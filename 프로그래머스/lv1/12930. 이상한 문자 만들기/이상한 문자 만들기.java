@@ -4,7 +4,6 @@ class Solution {
     public String solution(String s) {
         String answer = "";
         String[] strs = s.split("");
-        String[] splitS = s.split(" ");
         
         boolean isWord = false;
         
