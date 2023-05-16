@@ -3,7 +3,6 @@ import java.util.ArrayList;
 class Solution {
     public int[] solution(int[] arr) {
         int min = arr[0];
-        int[] answer = new int[1];
         
         ArrayList<Integer> al = new ArrayList();
         
@@ -22,13 +21,15 @@ class Solution {
                 }
             }
         } else {
-            answer[0] = -1;
+            al.add(-1);
         }
         
-        if (answer[0] == -1) {
+        int[] answer = new int[al.size()];
+        
+        if (al.get(0) == -1) {
+            answer[0] = -1;
             return answer;
         } else {
-            answer = new int[al.size()];
             for (int i=0; i<answer.length;i++) {
                 answer[i] = al.get(i);
             }
