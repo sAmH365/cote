@@ -8,12 +8,9 @@ class Solution {
 
         for (int i=0; i<b;i++) {
             for (int j=0; j<a;j++) {
-                if (j != a - 1) {
-                    System.out.print("*");
-                } else {
-                    System.out.println("*");
-                }
+                System.out.print("*");
             }
+            System.out.println();
         }
     }
 }
