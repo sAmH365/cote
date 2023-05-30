@@ -6,9 +6,6 @@ class Solution {
         
         Queue q = new LinkedList<String>();
         
-        if (cacheSize == 0) {
-            answer = cities.length * 5;
-        } else {
             for (int i=0; i<cities.length; i++) {
                 String s = cities[i].toLowerCase();
                 if (q.remove(s)) {
@@ -24,7 +21,7 @@ class Solution {
                 }
             }
                    
-        }
+        
         
         return answer;
     }
