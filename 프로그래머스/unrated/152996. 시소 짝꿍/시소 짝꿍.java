@@ -1,26 +1,21 @@
 import java.util.*;
 class Solution {
     public long solution(int[] weights) {
-        Map<Double, Integer> hm = new HashMap<>();
-		long ret = 0;
+        long answer = 0;
         Arrays.sort(weights);
-		for(int weight : weights) {
-			ret += helper(weight, hm);
-		}
-		return ret;
+        Map<Double, Integer> map = new HashMap<>();
+        for(int i : weights) {
+    		double a = i*1.0;
+    		double b = (i*2.0)/3.0;
+    		double c = (i*1.0)/2.0;
+    		double d = (i*3.0)/4.0;
+    		if(map.containsKey(a)) answer += map.get(a);
+    		if(map.containsKey(b)) answer += map.get(b);
+    		if(map.containsKey(c)) answer += map.get(c);
+    		if(map.containsKey(d)) answer += map.get(d);
+    		map.put((i*1.0), map.getOrDefault((i*1.0), 0)+1);
+        }
+        
+        return answer;
     }
-	
-	public long helper(int w, Map<Double, Integer> hm) {
-		long ret = 0;
-		double d1 = w*1.0;
-		double d2 = (w*2.0)/3.0;
-		double d3 = (w*1.0)/2.0;
-		double d4 = (w*3.0)/4.0;
-		if(hm.containsKey(d1)) ret += hm.get(d1);
-		if(hm.containsKey(d2)) ret += hm.get(d2);
-		if(hm.containsKey(d3)) ret += hm.get(d3);
-		if(hm.containsKey(d4)) ret += hm.get(d4);
-		hm.put(w*1.0, hm.getOrDefault(w*1.0, 0)+1);
-		return ret;
-	}
 }
