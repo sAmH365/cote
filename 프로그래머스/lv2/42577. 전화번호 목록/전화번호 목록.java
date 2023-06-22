@@ -4,14 +4,19 @@ class Solution {
     public boolean solution(String[] phone_book) {
         boolean answer = true;
         
-        Arrays.sort(phone_book);
+        HashMap<String, Integer> map = new HashMap();
         
-        for (int i=0; i<phone_book.length; i++) {
-            for (int j=i+1; j<phone_book.length; j++) {
-                if (phone_book[j].startsWith(phone_book[i])) return false;
-                else break;
+        for (String str : phone_book) {
+            map.put(str, 0);
+        }
+        
+        for (String str : phone_book) {
+            for (int i=0; i<str.length();i++) {
+                if (map.containsKey(str.substring(0, i))) return false;
             }
         }
+        
+        
         return answer;
     }
 }
