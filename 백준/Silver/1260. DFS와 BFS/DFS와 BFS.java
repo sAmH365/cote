@@ -1,114 +1,83 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
 
 public class Main {
-    static class Node implements Comparable {
-        int data;
-        boolean marked;
-        LinkedList<Node> adjacent;
 
-        Node(int data) {
-            this.data = data;
-            this.marked = false;
-            this.adjacent = new LinkedList<>();
-        }
+  static int MAX = 1000 + 10;
+  static int N, M, V;
+  static ArrayList<Integer>[] graph;
+  static LinkedList<Integer> q = new LinkedList<>();
+  static boolean[] visited;
 
-        @Override
-        public int compareTo(Object o) {
-            Node n = (Node) o;
-            return this.data - ((Node) o).data;
-        }
-    }
-    static class Graph {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-        ArrayList<Node> nodes;
+    N = Integer.parseInt(st.nextToken()); // 정점 개수
+    M = Integer.parseInt(st.nextToken()); // 간선 개수
+    V = Integer.parseInt(st.nextToken()); // 시작 정점 번호
 
-        Graph(int size) {
-            this.nodes = new ArrayList();
-            for (int i=0; i<size; i++) {
-                nodes.add(new Node(i));
-            }
-        }
-
-        void addEdge(int i1, int i2) {
-           Node n1 = nodes.get(i1);
-           Node n2 = nodes.get(i2);
-           if (!n1.adjacent.contains(n2)) {
-               n1.adjacent.add(n2);
-           }
-           if (!n2.adjacent.contains(n1)) {
-               n2.adjacent.add(n1);
-           }
-        }
-        
-        // DFS
-        void dfs(Node r) {
-            if (r == null) return;
-            r.marked = true;
-            visit(r);
-
-            Collections.sort(r.adjacent);
-
-            for (Node n : r.adjacent) {
-                if (n.marked == false) {
-                    dfs(n);
-                }
-            }
-        }
-        
-        void dfs(int index) {
-            Node r = nodes.get(index);
-            dfs(r);
-        }
-
-        // BFS
-        void bfs(int index) {
-            Node root = nodes.get(index);
-            Queue<Node> queue = new LinkedList<>();
-            queue.add(root);
-            root.marked = true;
-            while(!queue.isEmpty()) {
-                Node r = queue.remove();
-
-                Collections.sort(r.adjacent);
-
-                for (Node n : r.adjacent) {
-                    if (n.marked == false) {
-                        n.marked = true;
-                        queue.add(n);
-                    }
-                }
-                visit(r);
-            }
-        }
-
-        void visit(Node n) {
-            System.out.print(n.data + " ");
-        }
+    visited = new boolean[MAX];
+    graph = new ArrayList[MAX];
+    for (int i=1;i<=N;i++) {
+      graph[i] = new ArrayList<>();
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String[] input = sc.nextLine().split(" ");
-        int v = Integer.parseInt(input[0]);
-        int n = Integer.parseInt(input[1]);
-        int start = Integer.parseInt(input[2]);
+    int x,y;
+    for (int i=0; i<M; i++) {
+      st = new StringTokenizer(br.readLine());
 
-        Graph g = new Graph(v + 1);
-        for (int i=0; i<n;i++) {
-            String[] edges = sc.nextLine().split(" ");
-            int x = Integer.parseInt(edges[0]);
-            int y = Integer.parseInt(edges[1]);
-            g.addEdge(x, y);
-        }
+      x = Integer.parseInt(st.nextToken());
+      y = Integer.parseInt(st.nextToken());
 
-
-        g.dfs(start);
-        System.out.println();
-
-        for (int i=0; i < g.nodes.size(); i++ ){
-            g.nodes.get(i).marked = false;
-        }
-
-        g.bfs(start);
+      graph[x].add(y);
+      graph[y].add(x);
     }
+
+    for (int i=1; i<=N; i++) {
+      Collections.sort(graph[i]);
+    }
+
+    dfs(V);
+    System.out.println();
+
+    visited = new boolean[MAX];
+    bfs(V);
+  }
+
+  static void dfs(int idx) {
+    visited[idx] = true;
+    System.out.print(idx + " ");
+
+    for (int i=0; i<graph[idx].size(); i++) {
+      int next = graph[idx].get(i);
+
+      if (!visited[next]) {
+        dfs(next);
+      }
+    }
+  }
+
+  static void bfs(int v) {
+    q.offer(v);
+    visited[v] = true;
+
+    while (!q.isEmpty()) {
+      Integer idx = q.poll();
+      System.out.print(idx + " ");
+
+      for (int i=0; i<graph[idx].size(); i++) {
+        int next = graph[idx].get(i);
+        if (!visited[next]) {
+          visited[next] = true;
+          q.offer(next);
+        }
+      }
+    }
+  }
 }
