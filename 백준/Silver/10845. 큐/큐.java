@@ -1,93 +1,59 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
+import java.util.*;
+import java.io.*;
 public class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		Queue q = new Queue();
-		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st1;
-		String st;
-		String to1;
-		int to2;
-		int n = Integer.parseInt(bf.readLine());
-				
-		for(int i=0;i<n;i++) {
-			st = bf.readLine();
-			st1 = new StringTokenizer(st);
-			to1 = st1.nextToken();
-						
-			switch(to1) {
-			case "push" :
-				to2 = Integer.parseInt(st1.nextToken());
-				q.push(to2);
-				break;
-			case "pop" :
-				System.out.println(q.pop());
-				break;
-			case "size" :
-				System.out.println(q.size());
-				break;
-			case "empty" :
-				if(q.empty()) {
-					System.out.println(1);
-				}else{
-					System.out.println(0);
-				}
-				break;
-			case "front" :
-				System.out.println(q.front());
-				break;
-			case "back" :
-				System.out.println(q.back());
-				break;
-			}
-			
-		}
-			
-			
-	}
-	
-}
-class Queue{
-	ArrayList ar = new ArrayList();
-	
-	int p = -1;
-	
-	public void push(int a){
-		ar.add(a);
-		p++;
-	}
-	public int pop() {
-		if(ar.size()==0) {
-			return -1;
-		}else {
-			int temp = (int) ar.get(0);
-			p--;
-			ar.remove(0);
-			return temp;
-		}
-		
-	}
-	public int size() {
-		return ar.size();
-		}
-	public boolean empty() {
-		return ar.isEmpty();
-	}
-	public int front() {
-		if(ar.size()==0) {
-			return -1;
-		}
-		return (int)ar.get(0);
-	}
-	public int back() {
-		if(ar.size()==0) {
-			return -1;
-		}
-		return (int)ar.get(p);
-	}
-}
+    static LinkedList<Integer> queue = new LinkedList<>();
 
+    public static void main(String[] args) throws Exception {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int inputLine = Integer.parseInt(bf.readLine());
+
+        for (int i=0;i<inputLine;i++) {
+            String cmd = bf.readLine();
+            if (cmd.startsWith("push")) {
+                String[] s = cmd.split(" ");
+                push(Integer.parseInt(s[1]));
+            } else {
+                switch(cmd) {
+                    case "front": front();
+                    break;
+                    case "pop": pop();
+                        break;
+                    case "size": size();
+                        break;
+                    case "empty": empty();
+                        break;
+                    case "back": back();
+                        break;
+                }
+            }
+        }
+    }
+
+    static void push(int x) {
+        queue.add(x);
+    }
+
+    static void pop() {
+        if (!queue.isEmpty()) System.out.println(queue.pop());
+        else System.out.println(-1);
+    }
+
+    static void size() {
+        System.out.println(queue.size());
+    }
+
+    static void empty() {
+        if (queue.size()==0) System.out.println(1);
+        else System.out.println(0);
+    }
+
+    static void front() {
+        if(!queue.isEmpty()) System.out.println(queue.getFirst());
+        else System.out.println(-1);
+    }
+
+    static void back() {
+        if (!queue.isEmpty()) System.out.println(queue.getLast());
+        else System.out.println(-1);
+    }
+}
