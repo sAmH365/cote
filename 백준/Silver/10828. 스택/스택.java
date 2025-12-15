@@ -1,79 +1,73 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-		Stack st = new Stack();
-		int num = 0;
-		int n = Integer.parseInt(bf.readLine());
-		for (int i = 0; i < n; i++) {
-			String str = bf.readLine();
-			StringTokenizer sto = new StringTokenizer(str);
-			String a = sto.nextToken();
-			if (a.equals("push")) {
-				num = Integer.parseInt(sto.nextToken());
-				st.push(num);
-			} else {
-				switch (a) {
-				case "top":
-					st.top();
-					break;
-				case "size":
-					st.size();
-					break;
-				case "empty":
-					st.empty();
-					break;
-				case "pop":
-					st.pop();
-					break;
-				}
-				
-			}
-		}
 
-	}
-}
+  static List<Integer> stack = new ArrayList<>();
 
-class Stack {
-	List<Integer> list = new ArrayList<>();
-	int pointer = -1;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    int N = Integer.parseInt(br.readLine());
 
-	public void push(int n) {
-		pointer++;
-		list.add(n);
-	}
+    for (int i = 0; i <N; i++) {
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      int tokenCnt = st.countTokens();
+      if (tokenCnt > 1) {
+        // push
+        st.nextToken();
+        push(Integer.parseInt(st.nextToken()));
+      } else {
+        String cmd = st.nextToken();
 
-	public void pop() {
-		if (pointer == -1) {
-			System.out.println(-1);
-		} else {
-			System.out.println(list.get(pointer));
-			list.remove(pointer);
-			pointer--;
-		}
-	}
+        switch (cmd) {
+          case "pop":
+            pop();
+            break;
+          case "size":
+            size();
+            break;
+          case "empty":
+            empty();
+            break;
+          case "top":
+            top();
+            break;
+        }
+      }
+    }
+  }
 
-	public void size() {
-		System.out.println(list.size());
-	}
+  static void push(int x) {
+    stack.add(x);
+  }
 
-	public void empty() {
-		if (pointer == -1)
-			System.out.println(1);
-		else
-			System.out.println(0);
-	}
+  static void pop() {
+    if (stack.isEmpty()) {
+      System.out.println(-1);
+      return;
+    }
+    int idx = stack.size() - 1;
+    System.out.println(stack.get(idx));
+    stack.remove(idx);
+  }
 
-	public void top() {
-		if(pointer==-1)
-			System.out.println(-1);
-		else
-			System.out.println(list.get(pointer));
-	}
+  static void size() {
+    System.out.println(stack.size());
+  }
+
+  static void empty() {
+    int isEmpty = stack.isEmpty() ? 1 : 0;
+    System.out.println(isEmpty);
+  }
+
+  static void top() {
+    if (stack.isEmpty()) {
+      System.out.println(-1);
+      return;
+    }
+    System.out.println(stack.get(stack.size() - 1));
+  }
+
 }
