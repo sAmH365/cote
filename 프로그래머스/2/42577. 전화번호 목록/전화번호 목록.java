@@ -2,15 +2,23 @@ import java.util.*;
 
 class Solution {
     public boolean solution(String[] phone_book) {
-
-    Arrays.sort(phone_book);
-
-    for (int i = 0; i < phone_book.length - 1; i++) {
-      if (phone_book[i+1].startsWith(phone_book[i])) {
-        return false;
-      }
-    }
-
-    return true;
+        boolean answer = true;
+            
+        Set<String> set = new HashSet<>();
+        
+        for (String s : phone_book) {
+            set.add(s);
+        }
+        
+        for (String s : phone_book) {
+            int len = s.length();
+            
+            for (int i = 1 ; i < len; i++) {
+                String split = s.substring(0, i);
+                if (set.contains(split)) return false;
+            }
+        }
+            
+        return answer;
     }
 }
