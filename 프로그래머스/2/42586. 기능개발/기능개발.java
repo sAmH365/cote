@@ -2,39 +2,31 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        List<Integer> tmp = new ArrayList();
-        Queue<Integer> q = new LinkedList();
+        List<Integer> answer = new ArrayList<>();
+        Queue<Integer> q = new LinkedList<>();
 
-        int prevRemainDay = 0;
-        for (int i=0; i < progresses.length; i++) {
-            int progress = progresses[i]; // 현재 진도율
-            int speed = speeds[i];
-            
-            int remain = 100 - progress;
-            int remainDay = (int) Math.ceil( (double)remain / speed);
-            q.offer(remainDay);
+        // 1. 각 작업의 남은 일수를 계산하여 큐에 삽입
+        for (int i = 0; i < progresses.length; i++) {
+            // (100 - 현재진도) / 속도 를 올림 처리
+            int remain = (int) Math.ceil((100.0 - progresses[i]) / speeds[i]);
+            q.offer(remain);
         }
-        
-        int baseDay = q.poll();
-        int count = 1;
-        while(!q.isEmpty()) {
-            int ref = q.poll();
-            if (baseDay >= ref) {
+
+        // 2. 큐가 빌 때까지 배포 그룹 만들기
+        while (!q.isEmpty()) {
+            int firstDeployDay = q.poll(); // 현재 배포 그룹의 기준일 (가장 앞선 작업)
+            int count = 1; // 이번 배포에 포함된 기능 개수
+
+            // 기준일보다 빨리 끝나는 뒤의 작업들을 모두 포함
+            while (!q.isEmpty() && q.peek() <= firstDeployDay) {
+                q.poll();
                 count++;
-            } else {
-                tmp.add(count);
-                count = 1;
-                baseDay = ref;
             }
             
-            if (q.isEmpty()) tmp.add(count);
+            answer.add(count);
         }
-        
-        int[] answer = new int[tmp.size()];
-        for (int i = 0; i < answer.length; i++) {
-            answer[i] = tmp.get(i);
-        }
-        
-        return answer;
+
+        // List를 배열로 변환
+        return answer.stream().mapToInt(i -> i).toArray();
     }
 }
