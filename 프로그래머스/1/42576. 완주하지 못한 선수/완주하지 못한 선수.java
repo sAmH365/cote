@@ -2,26 +2,27 @@ import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-        String answer = "";
-        Map<String, Integer> map = new HashMap();
+        Map<String, Integer> partiMap = new HashMap<>();
         
-        // 1.참가자 기록
         for (String p : participant) {
-            map.put(p, map.getOrDefault(p, 0) + 1);
+            partiMap.put(p, partiMap.getOrDefault(p, 0) + 1);
         }
-        // 2.완주자와 비교하면서 숫자 차감
-        for (String c : completion) {
-            map.put(c, map.get(c) - 1);
-        }    
         
-        // 3. 마지막 까지 남아있는 사람이 정답
-        for (String key : map.keySet()) {
-            if (map.get(key) != 0) {
-                answer = key;
-                break;
+        for (String c : completion) {
+            Integer value = partiMap.get(c);
+            if (value != null) {
+                partiMap.put(c, value - 1);
             }
         }
         
-        return answer;
+        Set<String> keys = partiMap.keySet();
+        for (String k : keys) {
+            Integer v = partiMap.get(k);
+            if (v != 0) {
+                return k;
+            }
+        }
+        
+        return "";
     }
 }
