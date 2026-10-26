@@ -49,13 +49,18 @@ class Solution {
       int[] dx = {0, 0, -1, 1};
 
       Queue<int[]> queue = new ArrayDeque<>();
-      queue.offer(new int[]{startIdx[0], startIdx[1], 1});
+      queue.offer(new int[]{startIdx[0], startIdx[1], 0});
+      visited[startIdx[0]][startIdx[1]] = true;
 
       while (!queue.isEmpty()) {
         int[] current = queue.poll();
         int y = current[0];
         int x = current[1];
         int time = current[2];
+          
+        if (y == targetIdx[0] && x == targetIdx[1]) {
+            return time;
+        }
 
         for (int i = 0; i < 4; i++) {
           int ny = y + dy[i];
@@ -67,10 +72,6 @@ class Solution {
 
           if (visited[ny][nx] || map[ny][nx] == 'X') {
             continue;
-          }
-
-          if (ny == targetIdx[0] && nx == targetIdx[1]) {
-            return time;
           }
 
           visited[ny][nx] = true;
